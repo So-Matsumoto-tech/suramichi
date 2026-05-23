@@ -160,7 +160,7 @@ header{margin-bottom:14px;}
 }
 .sec-head .bar{width:6px;height:20px;border-radius:3px;}
 
-/* ===== タスクカード ===== */
+/* ===== クエストカード ===== */
 .card{
   background:var(--color-white);
   border:2px solid var(--color-border-ui);
@@ -403,8 +403,8 @@ input:focus,select:focus{outline:none;border-color:var(--color-q1);}
    Supabaseの画面 → Settings → API でわかる2つの値を貼ります。
    （手順書のとおりに進めればOK）
    =========================================================== */
-const SUPABASE_URL = "https://hzxyymoiyhvmjahyzubt.supabase.co";       // 例: https://abcd1234.supabase.co
-const SUPABASE_KEY = "sb_publishable_dNzme0GpjiRMiGS3GQgqCg_liRs9km8";   // 例: eyJhbGciOi... （長い文字列）
+const SUPABASE_URL = "https://lvntxkincokhluczxamd.supabase.co";       // 例: https://abcd1234.supabase.co
+const SUPABASE_KEY = "sb_publishable_Q575BeWHHnFm665lXUxZ-Q_uJzQcYt2";   // 例: eyJhbGciOi... （長い文字列）
 
 // このアプリの合言葉（家族で同じ言葉にする）。1家族で1つの「ぼうけんのしょ」を共有します。
 // 二人のスマホで同じ文字にしてください。変えると別データになります。
@@ -440,7 +440,7 @@ const FAMILY_ID = "suramichi-family";
     </div>
   </header>
 
-  <!-- ① 今日のタスク -->
+  <!-- ① 今日のクエスト -->
   <section class="screen active" id="screen-today">
     <div class="sec-head"><span class="bar" style="background:var(--color-q1)"></span>きょうのクエスト</div>
     <div id="todayList"></div>
@@ -465,20 +465,20 @@ const FAMILY_ID = "suramichi-family";
   <section class="screen" id="screen-setting">
     <div class="sec-head"><span class="bar" style="background:var(--color-q2)"></span>おうちの人のせってい</div>
     <div class="setting-note">
-      ▼ ここでタスクとごほうびを じゆうに ついか・へんしゅうできます。<br>
-      毎日のタスクは えらんだ曜日に じどうで出ます。日付がかわると またチャレンジできます。
+      ▼ ここでクエストとごほうびを じゆうに ついか・へんしゅうできます。<br>
+      毎日のクエストは えらんだ曜日に じどうで出ます。日付がかわると またチャレンジできます。
     </div>
 
     <div class="subtabs">
-      <button class="active" data-sub="task" onclick="switchSub('task')">タスク</button>
+      <button class="active" data-sub="task" onclick="switchSub('task')">クエスト</button>
       <button data-sub="reward" onclick="switchSub('reward')">ごほうび</button>
       <button data-sub="hero" onclick="switchSub('hero')">なまえ等</button>
     </div>
 
-    <!-- タスク設定 -->
+    <!-- クエスト設定 -->
     <div class="subpane active" id="sub-task">
       <div class="card">
-        <div class="field"><label>タスク名</label>
+        <div class="field"><label>クエスト名</label>
           <input type="text" id="tName" placeholder="例：漢字ドリル 1ページ"></div>
         <div class="row">
           <div class="field"><label>もらえるゴールド</label>
@@ -489,14 +489,14 @@ const FAMILY_ID = "suramichi-family";
               <option value="once">1回だけ</option>
             </select></div>
         </div>
-        <div class="field" id="tDayWrap"><label>出てくる曜日（毎日タスク用）</label>
+        <div class="field" id="tDayWrap"><label>出てくる曜日（毎日クエスト用）</label>
           <div class="day-pick" id="tDays"></div>
         </div>
         <div class="field"><label>アイコン</label>
           <div class="emoji-pick" id="tEmojiPick"></div></div>
-        <button class="btn btn-q2 btn-block" onclick="addTask()">＋ タスクをついか</button>
+        <button class="btn btn-q2 btn-block" onclick="addTask()">＋ クエストをついか</button>
       </div>
-      <div class="sec-head" style="font-size:13px;"><span class="bar" style="background:var(--color-q2)"></span>とうろくずみ タスク</div>
+      <div class="sec-head" style="font-size:13px;"><span class="bar" style="background:var(--color-q2)"></span>とうろくずみ クエスト</div>
       <div id="taskAdminList"></div>
     </div>
 
@@ -729,7 +729,7 @@ function todayKey(){
 }
 function fmtDate(s){ const[y,m,d]=s.split('-'); return `${m}/${d}`; }
 
-/* 今日表示すべきタスク */
+/* 今日表示すべきクエスト */
 function tasksForToday(){
   const dow=new Date().getDay();
   return state.tasks.filter(t=>{
@@ -807,7 +807,7 @@ async function stamp(taskId, who){
   const t=state.tasks.find(x=>x.id===taskId);
   if(!prog[taskId]) prog[taskId]={kid:false,parent:false,claimed:false};
   const p=prog[taskId];
-  // 振り返り用にタスク情報を記録（後でタスク削除されても残る）
+  // 振り返り用にクエスト情報を記録（後でクエスト削除されても残る）
   p.name=t.name; p.emoji=t.emoji; p.gold=t.gold;
   p[who]=!p[who]; // トグル
   // 両方ONかつ未付与ならゴールド付与
@@ -936,12 +936,12 @@ function renderDayGroup(d){
   const total=entries.length;
   const rate = total? Math.round(cleared.length/total*100) : 0;
   const dayGold=cleared.reduce((s,p)=>s+(p.gold||0),0);
-  // タスク行
+  // クエスト行
   const rows=entries.map(p=>{
     const done=p.kid&&p.parent;
     return `<div class="day-row ${done?'cleared':'partial'}">
       <span class="dr-emoji">${p.emoji||'📝'}</span>
-      <span class="dr-name">${esc(p.name||'タスク')}</span>
+      <span class="dr-name">${esc(p.name||'クエスト')}</span>
       <span class="dr-mark">${p.kid?`<img class="slime-mini" src="${SLIME_IMG}" alt="">`:'・'}${p.parent?`<img class="parent-mini" src="${PARENT_IMG}" alt="">`:'・'}</span>
       <span class="dr-mark">${done?'🎉':''}</span>
     </div>`;
@@ -969,7 +969,7 @@ function renderDayGroup(d){
         <span class="dg-gold">＋${dayGold} G</span>
       </div>
     </div>
-    <div class="day-rows">${rows||'<div class="day-row partial"><span class="dr-name">タスク記録なし</span></div>'}</div>
+    <div class="day-rows">${rows||'<div class="day-row partial"><span class="dr-name">クエスト記録なし</span></div>'}</div>
     ${exHtml}
   </div>`;
 }
@@ -1026,7 +1026,7 @@ function initSettingUI(){
   // 曜日ピッカー
   document.getElementById('tDays').innerHTML =
     DAYS.map((d,i)=>`<button class="${selDays.includes(i)?'sel':''}" data-d="${i}" onclick="toggleDay(${i},this)">${d}</button>`).join('');
-  // タスク種別で曜日表示切替
+  // クエスト種別で曜日表示切替
   document.getElementById('tType').addEventListener('change',e=>{
     document.getElementById('tDayWrap').style.display = e.target.value==='daily'?'block':'none';
   });
@@ -1053,16 +1053,16 @@ async function addTask(){
   const name=document.getElementById('tName').value.trim();
   const gold=parseInt(document.getElementById('tGold').value)||0;
   const type=document.getElementById('tType').value;
-  if(!name){toast('タスク名を いれてね');return;}
+  if(!name){toast('クエスト名を いれてね');return;}
   if(gold<1){toast('ゴールドは1いじょう');return;}
   if(type==='daily' && selDays.length===0){toast('曜日を えらんでね');return;}
   state.tasks.push({id:id(),name,gold,type,days:type==='daily'?[...selDays].sort():[],emoji:selTaskEmoji,doneOnce:false});
   document.getElementById('tName').value='';
   await save(); render();
-  toast('タスクを ついかしたよ！');
+  toast('クエストを ついかしたよ！');
 }
 async function delTask(tid){
-  if(!confirm('このタスクを けしますか？')) return;
+  if(!confirm('このクエストを けしますか？')) return;
   state.tasks=state.tasks.filter(t=>t.id!==tid);
   await save(); render();
 }
@@ -1087,7 +1087,7 @@ async function delReward(rid){
 }
 
 function renderAdmin(){
-  // タスク一覧
+  // クエスト一覧
   const tl=document.getElementById('taskAdminList');
   tl.innerHTML = state.tasks.length? state.tasks.map(t=>`
     <div class="list-item">
