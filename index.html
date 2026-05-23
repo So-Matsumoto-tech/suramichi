@@ -181,11 +181,18 @@ header{margin-bottom:14px;}
 }
 .hw-subject .bar{width:6px;height:20px;border-radius:3px;}
 .hw-item{
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:center;gap:8px;
   background:var(--color-white);border:2px solid var(--color-border-ui);
   border-radius:10px;padding:9px 10px;margin-bottom:7px;
 }
 .hw-item .hw-name{flex:1;font-weight:700;font-size:14px;min-width:0;word-break:break-word;}
+.hw-order{display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
+.hw-move{
+  border:none;background:var(--color-q1-bg);color:var(--color-q1);
+  border-radius:5px;width:26px;height:17px;font-size:9px;line-height:1;
+  cursor:pointer;touch-action:manipulation;padding:0;
+}
+.hw-move:disabled{opacity:.25;cursor:default;}
 .hw-state{
   border:none;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:900;
   cursor:pointer;touch-action:manipulation;white-space:nowrap;min-width:78px;
@@ -866,7 +873,7 @@ function weekStatus(weekKey){
 function homeworkPendingCount(){
   if(!state.homework || !state.homework.items.length) return 0;
   let n=0;
-  [-1,0,1].forEach(off=>{
+  [-1,0].forEach(off=>{   // 先週・今週のみ（来週はこれからなので数えない）
     const wk=weekKeyForOffset(off);
     const st=state.homework.status[wk]||{};
     state.homework.items.forEach(it=>{
@@ -1077,11 +1084,17 @@ function renderHomework(){
   HW_SUBJECTS.forEach(sub=>{
     const items=state.homework.items.filter(it=>it.subject===sub);
     html+=`<div class="hw-subject"><span class="bar" style="background:${HW_SUBJECT_COLOR[sub]}"></span>${sub}</div>`;
-    items.forEach(it=>{
+    items.forEach((it,idx)=>{
       const s=st[it.id]||'todo';
+      const upDis = idx===0 ? 'disabled' : '';
+      const downDis = idx===items.length-1 ? 'disabled' : '';
       html+=`<div class="hw-item">
+        <span class="hw-order">
+          <button class="hw-move" ${upDis} onclick="moveHwItem('${it.id}',-1)" title="うえへ">▲</button>
+          <button class="hw-move" ${downDis} onclick="moveHwItem('${it.id}',1)" title="したへ">▼</button>
+        </span>
         <span class="hw-name">${esc(it.name)}</span>
-        <button class="hw-state ${s}" onclick="toggleHw('${wk}','${it.id}')">${HW_LABEL[s]}</button>
+        <button class="hw-state ${s}" data-wk="${wk}" data-item="${it.id}" onclick="toggleHw(this)">${HW_LABEL[s]}</button>
         <button class="hw-del" onclick="delHwItem('${it.id}')" title="この項目を消す">×</button>
       </div>`;
     });
@@ -1092,11 +1105,18 @@ function renderHomework(){
   });
   box.innerHTML=html;
 }
-async function toggleHw(wk,itemId){
+function toggleHw(btn){
+  const wk=btn.dataset.wk, itemId=btn.dataset.item;
   const st=weekStatus(wk);
   const cur=st[itemId]||'todo';
-  st[itemId]=HW_NEXT[cur];
-  await save(); renderHomework(); updateHwBadge();
+  const next=HW_NEXT[cur];
+  st[itemId]=next;
+  // 押したボタンだけ即座に見た目を更新（全体は描き直さない）
+  btn.classList.remove('todo','doing','done');
+  btn.classList.add(next);
+  btn.textContent=HW_LABEL[next];
+  updateHwBadge();
+  save();  // 保存は裏で（待たない）
 }
 async function addHwItem(subject){
   const inp=document.getElementById('hwAdd-'+subject);
@@ -1112,6 +1132,22 @@ async function delHwItem(itemId){
   // 各週の状態からも掃除
   Object.keys(state.homework.status).forEach(wk=>{ delete state.homework.status[wk][itemId]; });
   await save(); renderHomework(); updateHwBadge();
+}
+/* 同じ教科の中で項目を上下に動かす（dir: -1=上, +1=下） */
+async function moveHwItem(itemId, dir){
+  const all=state.homework.items;
+  const target=all.find(it=>it.id===itemId);
+  if(!target) return;
+  const sub=target.subject;
+  // 全体配列の中での、その教科の項目の位置(index)一覧
+  const idxs=all.map((it,i)=>it.subject===sub?i:-1).filter(i=>i>=0);
+  const posInSub=idxs.indexOf(all.indexOf(target)); // 教科内での順番
+  const swapPos=posInSub+dir;
+  if(swapPos<0 || swapPos>=idxs.length) return; // 端なら何もしない
+  const a=idxs[posInSub], b=idxs[swapPos];
+  // 全体配列上で入れ替え
+  [all[a], all[b]] = [all[b], all[a]];
+  await save(); renderHomework();
 }
 function updateHwBadge(){
   const b=document.getElementById('hwBadge');
