@@ -619,6 +619,20 @@ const FAMILY_ID = "suramichi-family";
         <button class="btn btn-q4 btn-block" style="background:var(--color-q4)" onclick="saveAppName()">アプリ名をほぞん</button>
       </div>
       <div class="card">
+        <div class="field"><label>しゅくだいの 週の はじまりの曜日</label>
+          <select id="weekStartSel" onchange="saveWeekStart()">
+            <option value="0">日よう日</option>
+            <option value="1">月よう日</option>
+            <option value="2">火よう日</option>
+            <option value="3">水よう日</option>
+            <option value="4">木よう日</option>
+            <option value="5">金よう日</option>
+            <option value="6">土よう日</option>
+          </select></div>
+        <p style="font-size:10px;color:var(--color-text-muted);margin:0;line-height:1.6">
+          ▼ えらんだ曜日から 1週間が はじまります。じゅぎょうの曜日に あわせてください。</p>
+      </div>
+      <div class="card">
         <div class="field"><label>娘さんのなまえ（スタンプに表示）</label>
           <input type="text" id="heroName" placeholder="例：ゆうき"></div>
         <div class="field"><label>おうちの人のなまえ（スタンプに表示）</label>
@@ -712,6 +726,7 @@ let state = {
   rewards:[],    // {id,name,cost,emoji}
   progress:{},   // { 'YYYY-MM-DD': { taskId:{kid:bool,parent:bool,claimed:bool} } }
   history:[],      // {type:'task'|'reward', name, gold(+/-), date}
+  weekStart:1,     // 週の始まりの曜日 0=日,1=月,...6=土
   homework:{ items:[], status:{} }  // items:{id,subject,name} / status:{ '週キー': { itemId:'todo'|'doing'|'done' } }
 };
 
@@ -795,6 +810,7 @@ function migrate(){
     state.homework.status = keepStatus;
   }
   if(!state.homework.status) state.homework.status={};
+  if(state.weekStart===undefined || state.weekStart===null) state.weekStart=1; // 既定は月曜
 }
 
 /* ---- すぐ反映（リアルタイム購読）---- */
@@ -853,15 +869,23 @@ function fmtDate(s){ const[y,m,d]=s.split('-'); return `${m}/${d}`; }
 
 /* ---- 宿題：週まわり ---- */
 let weekOffset = 0; // 0=今週 -1=先週 +1=来週
-function mondayOf(date){
+/* 週の始まりの曜日（0=日,1=月,...6=土）。未設定なら月曜。 */
+function weekStartDay(){
+  const v = (state.weekStart===0||state.weekStart) ? state.weekStart : 1;
+  return Number(v);
+}
+/* 指定日が含まれる「週の始まりの日」を返す */
+function weekStartOf(date){
   const d=new Date(date.getFullYear(),date.getMonth(),date.getDate());
-  const dow=d.getDay();              // 0=日
-  const diff=(dow===0?-6:1-dow);     // 月曜まで戻す
-  d.setDate(d.getDate()+diff);
+  const dow=d.getDay();                 // 0=日
+  const start=weekStartDay();
+  let diff=(dow-start);                 // 開始曜日まで何日戻すか
+  if(diff<0) diff+=7;
+  d.setDate(d.getDate()-diff);
   return d;
 }
 function weekKeyForOffset(off){
-  const base=mondayOf(new Date());
+  const base=weekStartOf(new Date());
   base.setDate(base.getDate()+off*7);
   return base.getFullYear()+'-'+String(base.getMonth()+1).padStart(2,'0')+'-'+String(base.getDate()).padStart(2,'0');
 }
@@ -1377,6 +1401,16 @@ function renderAdmin(){
   document.getElementById('appName').value = state.appName||'';
   document.getElementById('heroName').value = state.heroName||'';
   document.getElementById('parentName').value = state.parentName||'';
+  const wss=document.getElementById('weekStartSel');
+  if(wss) wss.value = String(weekStartDay());
+}
+
+async function saveWeekStart(){
+  const v=Number(document.getElementById('weekStartSel').value);
+  state.weekStart = v;
+  weekOffset = 0; // 今週に戻す
+  await save(); renderHomework(); updateHwBadge();
+  toast('週の はじまりを かえたよ！');
 }
 
 async function saveAppName(){
@@ -1396,7 +1430,7 @@ async function savePin(){
 }
 async function resetAll(){
   if(!confirm('すべてのデータが きえます。本当に はじめにもどしますか？')) return;
-  state={appName:'すらみちクエスト',gold:0,totalClear:0,heroName:'',parentName:'',pin:'',allowance:0,tasks:[],rewards:[],progress:{},history:[],homework:{items:[],status:{}}};
+  state={appName:'すらみちクエスト',gold:0,totalClear:0,heroName:'',parentName:'',pin:'',allowance:0,tasks:[],rewards:[],progress:{},history:[],weekStart:1,homework:{items:[],status:{}}};
   seed(); await save(); render(); toast('はじめに もどしました');
 }
 
