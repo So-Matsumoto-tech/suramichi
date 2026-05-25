@@ -1305,7 +1305,7 @@ function fmtDateFull(s){
 /* =========================================================
    設定（親）
    ========================================================= */
-let selTaskEmoji=TASK_EMOJIS[0], selRewardEmoji=REWARD_EMOJIS[0], selDays=[1,2,3,4,5];
+let selTaskEmoji=TASK_EMOJIS[0], selRewardEmoji=REWARD_EMOJIS[0], selDays=[0,1,2,3,4,5,6];
 
 function initSettingUI(){
 // テンプレートボタン
@@ -1317,8 +1317,7 @@ function initSettingUI(){
   document.getElementById('rEmojiPick').innerHTML =
     REWARD_EMOJIS.map((e,i)=>`<button class="${i===0?'sel':''}" onclick="pickEmoji('r','${e}',this)">${e}</button>`).join('');
   // 曜日ピッカー
-  document.getElementById('tDays').innerHTML =
-    DAYS.map((d,i)=>`<button class="${selDays.includes(i)?'sel':''}" data-d="${i}" onclick="toggleDay(${i},this)">${d}</button>`).join('');
+  renderDayPicker();
   // クエスト種別で曜日表示切替
   document.getElementById('tType').addEventListener('change',e=>{
     document.getElementById('tDayWrap').style.display = e.target.value==='daily'?'block':'none';
@@ -1351,6 +1350,11 @@ function toggleDay(i,el){
   else selDays.push(i);
   el.classList.toggle('sel');
 }
+function renderDayPicker(){
+  const box=document.getElementById('tDays');
+  if(!box) return;
+  box.innerHTML = DAYS.map((d,i)=>`<button class="${selDays.includes(i)?'sel':''}" data-d="${i}" onclick="toggleDay(${i},this)">${d}</button>`).join('');
+}
 
 async function addTask(){
   const name=document.getElementById('tName').value.trim();
@@ -1361,6 +1365,7 @@ async function addTask(){
   if(type==='daily' && selDays.length===0){toast('曜日を えらんでね');return;}
   state.tasks.push({id:id(),name,gold,type,days:type==='daily'?[...selDays].sort():[],emoji:selTaskEmoji,doneOnce:false});
   document.getElementById('tName').value='';
+  selDays=[0,1,2,3,4,5,6]; renderDayPicker();  // 次の追加にそなえて全曜日にもどす
   await save(); render();
   toast('クエストを ついかしたよ！');
 }
