@@ -735,6 +735,14 @@ let supa = null;          // Supabaseクライアント
 let useCloud = false;     // クラウド同期が使えるか
 let saveTimer = null;     // 保存の連打を防ぐタイマー
 let applyingRemote = false; // リモート反映中フラグ（保存ループ防止）
+// この端末を見分けるためのID（自分が送った更新を自分に返さないため）
+const CLIENT_ID = (function(){
+  try{
+    let c = localStorage.getItem('quest_client_id');
+    if(!c){ c = Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('quest_client_id', c); }
+    return c;
+  }catch(e){ return Math.random().toString(36).slice(2); }
+})();
 
 function initSupabase(){
   try{
@@ -763,7 +771,7 @@ async function save(){
 async function saveToCloud(){
   try{
     const { error } = await supa.from('quest_data')
-      .upsert({ family_id: FAMILY_ID, data: state, updated_at: new Date().toISOString() });
+      .upsert({ family_id: FAMILY_ID, data: Object.assign({}, state, {_src: CLIENT_ID}), updated_at: new Date().toISOString() });
     if(error){ console.warn('cloud save error:', error.message); }
   }catch(e){ console.warn('cloud save例外:', e && e.message); }
 }
@@ -782,6 +790,7 @@ async function load(){
         .select('data').eq('family_id', FAMILY_ID).maybeSingle();
       if(error){ throw error; }
       if(data && data.data){
+        delete data.data._src;
         state = Object.assign(state, data.data);
         migrate();
       }else{
@@ -822,7 +831,10 @@ function subscribeRealtime(){
         (payload)=>{
           const incoming = payload.new && payload.new.data;
           if(!incoming) return;
+          // 自分が送った更新が返ってきただけなら無視（自分の画面が巻き戻るのを防ぐ）
+          if(incoming._src && incoming._src === CLIENT_ID) return;
           applyingRemote = true;          // この反映では保存しない
+          delete incoming._src;
           state = Object.assign(state, incoming);
           render();
           applyingRemote = false;
@@ -1131,16 +1143,19 @@ function renderHomework(){
 }
 function toggleHw(btn){
   const wk=btn.dataset.wk, itemId=btn.dataset.item;
-  const st=weekStatus(wk);
-  const cur=st[itemId]||'todo';
+  // 「今見えている状態」を基準に次を決める（DOMとstateのズレに強くする）
+  let cur='todo';
+  if(btn.classList.contains('doing')) cur='doing';
+  else if(btn.classList.contains('done')) cur='done';
   const next=HW_NEXT[cur];
-  st[itemId]=next;
   // 押したボタンだけ即座に見た目を更新（全体は描き直さない）
   btn.classList.remove('todo','doing','done');
   btn.classList.add(next);
   btn.textContent=HW_LABEL[next];
+  // stateを更新して保存
+  weekStatus(wk)[itemId]=next;
   updateHwBadge();
-  save();  // 保存は裏で（待たない）
+  save();
 }
 async function addHwItem(subject){
   const inp=document.getElementById('hwAdd-'+subject);
