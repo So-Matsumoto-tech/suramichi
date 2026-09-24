@@ -465,6 +465,110 @@ input:focus,select:focus{outline:none;border-color:var(--color-q1);}
 .pin-box h3{font-family:'Noto Sans JP';font-weight:900;color:var(--dq-gold);margin-bottom:6px;}
 .pin-box p{font-size:11px;color:#aab6d6;margin-bottom:16px;}
 .pin-box input{text-align:center;font-size:22px;letter-spacing:8px;margin-bottom:14px;}
+/* ===== かこもん(過去問) - すらみちブルー基調 ===== */
+.kk-wrap{padding:0}
+.kk-schoolhead{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
+.kk-tape{width:6px;height:24px;border-radius:3px;background:var(--dq-navy)}
+.kk-schoolhead h3{margin:0;font-size:16px;color:var(--dq-navy-deep);font-weight:800}
+.kk-schoolhead .kk-schoolact{margin-left:auto;display:flex;gap:6px}
+.kk-schoolhead button{background:var(--color-white);border:2px solid var(--color-border-ui);
+  border-radius:10px;padding:5px 10px;font-size:11px;color:var(--color-text-secondary);cursor:pointer}
+.kk-schoolhead button:hover{border-color:var(--dq-navy);color:var(--dq-navy)}
+
+/* 学校ごとの日程タブ */
+.kk-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.kk-tab{background:var(--color-white);border:2px solid var(--color-border-ui);
+  border-radius:14px;padding:6px 12px;font-size:12px;color:var(--color-text-secondary);cursor:pointer}
+.kk-tab[aria-selected="true"]{background:var(--dq-navy);color:#fff;border-color:var(--dq-navy)}
+
+/* 年度リスト(行) */
+.kk-yrs{display:flex;flex-direction:column;gap:8px}
+.kk-yr{background:var(--color-white);border:2px solid var(--color-border-ui);border-radius:12px;
+  padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s}
+.kk-yr:hover{border-color:var(--dq-navy);transform:translateX(2px)}
+.kk-yr .kk-yr-num{font-weight:900;font-size:18px;color:var(--dq-navy-deep);min-width:60px}
+.kk-yr .kk-yr-best{flex:1;font-size:13px;color:var(--color-text-secondary)}
+.kk-yr .kk-yr-best b{color:var(--color-text-primary);font-weight:700}
+.kk-yr .kk-yr-badge{padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.kk-yr .kk-yr-badge.pass{background:var(--color-q2-bg);color:var(--color-q2);border:1px solid var(--color-q2-border)}
+.kk-yr .kk-yr-badge.avg{background:var(--color-q4-bg);color:var(--color-q4);border:1px solid var(--color-q4-border)}
+.kk-yr .kk-yr-badge.min{background:var(--color-q1-bg);color:var(--color-q1);border:1px solid var(--color-q1-border)}
+.kk-yr .kk-yr-badge.none{background:#F3F4F6;color:var(--color-text-muted)}
+
+.kk-empty{padding:14px;text-align:center;color:var(--color-text-muted);font-size:13px;
+  background:var(--color-white);border:2px dashed var(--color-border-ui);border-radius:12px}
+
+.kk-add-school{margin:14px 0 4px;text-align:center}
+
+/* 学校選択(横スクロールピル) */
+.kk-schoolpills{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;margin-bottom:10px;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.kk-schoolpills::-webkit-scrollbar{display:none}
+.kk-pill{flex:0 0 auto;background:var(--color-white);border:2px solid var(--color-border-ui);
+  border-radius:16px;padding:6px 14px;font-size:12px;color:var(--color-text-secondary);cursor:pointer;
+  white-space:nowrap}
+.kk-pill[aria-selected="true"]{background:var(--dq-navy);color:#fff;border-color:var(--dq-navy)}
+
+/* シート(モーダル) */
+.kk-sheet-overlay{position:fixed;inset:0;background:rgba(30,62,140,.4);z-index:200;
+  display:none;align-items:flex-end;justify-content:center;padding:0}
+.kk-sheet-overlay.show{display:flex}
+.kk-sheet{background:var(--color-white);border-radius:16px 16px 0 0;width:100%;max-width:520px;
+  max-height:88vh;overflow-y:auto;padding:18px 16px 24px;
+  box-shadow:0 -4px 20px rgba(30,62,140,.2);animation:kkSlideUp .25s ease-out}
+@keyframes kkSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.kk-sheet h3{margin:0 0 4px;color:var(--dq-navy-deep);font-size:16px;font-weight:900}
+.kk-sheet .kk-subt{margin:0 0 12px;color:var(--color-text-secondary);font-size:12px}
+.kk-sheet h4{margin:14px 0 8px;font-size:13px;color:var(--dq-navy);font-weight:700;
+  padding-bottom:4px;border-bottom:2px solid var(--color-q1-bg)}
+.kk-box{background:var(--color-bg-page);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.kk-fld{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.kk-fld label{font-size:12px;color:var(--color-text-secondary)}
+.kk-fld input, .kk-fld select, .kk-fld textarea{padding:8px 10px;border:2px solid var(--color-border-ui);
+  border-radius:8px;font-size:14px;background:#fff;color:var(--color-text-primary);width:100%}
+.kk-fld input:focus, .kk-fld select:focus, .kk-fld textarea:focus{outline:none;border-color:var(--dq-navy)}
+.kk-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.kk-row label{font-size:12px;color:var(--color-text-secondary);min-width:40px}
+.kk-row input[type="number"]{width:80px;padding:6px 8px;border:2px solid var(--color-border-ui);
+  border-radius:6px;font-size:13px;text-align:right}
+.kk-row .kk-mx{font-size:11px;color:var(--color-text-muted)}
+.kk-sheet-btns{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--color-border-ui)}
+.kk-sheet-btns button{flex:1;padding:10px;border-radius:10px;border:none;font-family:inherit;
+  font-size:13px;font-weight:700;cursor:pointer}
+.kk-sheet-btns .kk-ok{background:var(--dq-navy);color:#fff}
+.kk-sheet-btns .kk-ok:hover{background:var(--dq-navy-deep)}
+.kk-sheet-btns .kk-ng{background:var(--color-white);color:var(--color-text-secondary);
+  border:2px solid var(--color-border-ui)}
+.kk-sheet-btns .kk-del{background:#FEE2E2;color:#991B1B;flex:0 0 auto;padding:10px 14px}
+
+/* 記録リスト(1回分) */
+.kk-attlist{display:flex;flex-direction:column;gap:8px}
+.kk-att{background:var(--color-bg-page);border-radius:10px;padding:10px 12px}
+.kk-att-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.kk-att-date{font-size:11px;color:var(--color-text-secondary)}
+.kk-att-total{font-weight:900;color:var(--dq-navy-deep)}
+.kk-att-scores{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:4px;font-size:11px;color:var(--color-text-secondary)}
+.kk-att-scores span b{color:var(--color-text-primary);font-weight:700}
+.kk-att-actions{margin-top:6px;display:flex;gap:6px;justify-content:flex-end}
+.kk-att-actions button{background:transparent;border:none;color:var(--color-text-muted);
+  font-size:11px;padding:2px 6px;cursor:pointer}
+.kk-att-actions button:hover{color:var(--dq-navy)}
+
+/* 年度チップ(編集シート内) */
+.kk-ychips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.kk-ychip{background:var(--color-white);border:2px solid var(--color-border-ui);
+  border-radius:12px;padding:4px 10px;font-size:12px;cursor:pointer}
+.kk-ychip:hover{border-color:#E2517B;color:#E2517B}
+
+/* 科目行(編集シート内) */
+.kk-subj-row{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.kk-subj-row .kk-subj-k{background:var(--dq-navy);color:#fff;border-radius:6px;
+  padding:3px 8px;font-size:11px;font-weight:700;min-width:36px;text-align:center}
+.kk-subj-row input[type="number"]{width:70px;padding:5px 7px;border:2px solid var(--color-border-ui);
+  border-radius:6px;font-size:12px;text-align:right}
+
+/* 学校色 tape の色バリエーション(既存の学校colorを維持) */
+
 </style>
 
 <!-- ▼▼▼ Supabase（2台で同期）の設定 ▼▼▼ -->
@@ -657,6 +761,20 @@ const FAMILY_ID = "suramichi-family";
 </div>
 
 <!-- タブバー -->
+  <!-- ⑥ かこもん(過去問管理) -->
+  <section class="screen" id="screen-kakomon">
+    <div class="sec-head"><span class="bar" style="background:var(--color-q3)"></span>かこもん手帖</div>
+    <div class="kk-wrap" id="kkWrap">
+      <!-- 学校ピル -->
+      <div class="kk-schoolpills" id="kkSchoolPills"></div>
+      <!-- 学校ヘッダー(色タブ・学校編集ボタン) -->
+      <div id="kkSchoolBody"></div>
+      <div class="kk-add-school">
+        <button class="btn btn-q2" onclick="kkAddSchool()">＋ 学校をついか</button>
+      </div>
+    </div>
+  </section>
+
 <div class="tabbar-shell">
 <nav class="tabbar">
   <button class="active" data-screen="today" onclick="switchScreen('today')">
@@ -675,6 +793,10 @@ const FAMILY_ID = "suramichi-family";
   <button data-screen="hist" onclick="switchScreen('hist')">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="3" fill="currentColor"/><rect x="3.5" y="5" width="17" height="4.5" rx="3" fill="currentColor"/><path d="M8 3.5v3M16 3.5v3" stroke="var(--dq-navy)" stroke-width="1.8" stroke-linecap="round"/><path d="M12 11.5l1.1 2.2 2.4.3-1.8 1.7.5 2.4-2.2-1.2-2.2 1.2.5-2.4-1.8-1.7 2.4-.3L12 11.5Z" fill="var(--dq-navy)"/></svg></span>
     きろく
+  </button>
+  <button data-screen="kakomon" onclick="switchScreen('kakomon')">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h13a3 3 0 0 1 3 3v14H7a3 3 0 0 1-3-3V4Z" fill="currentColor"/><path d="M8 8h8M8 12h8M8 16h5" stroke="var(--dq-navy)" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+    かこもん
   </button>
   <button data-screen="setting" onclick="requestSetting()">
     <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5c.7 0 1.3.5 1.5 1.1l.3 1.2c.5.2 1 .4 1.4.7l1.2-.5c.6-.3 1.4 0 1.8.6l.9 1.5c.4.6.2 1.4-.4 1.8l-1 .8c0 .3.1.5.1.8s0 .5-.1.8l1 .8c.6.4.8 1.2.4 1.8l-.9 1.5c-.4.6-1.2.9-1.8.6l-1.2-.5c-.4.3-.9.5-1.4.7l-.3 1.2c-.2.6-.8 1.1-1.5 1.1s-1.3-.5-1.5-1.1l-.3-1.2c-.5-.2-1-.4-1.4-.7l-1.2.5c-.6.3-1.4 0-1.8-.6l-.9-1.5c-.4-.6-.2-1.4.4-1.8l1-.8c0-.3-.1-.5-.1-.8s0-.5.1-.8l-1-.8c-.6-.4-.8-1.2-.4-1.8l.9-1.5c.4-.6 1.2-.9 1.8-.6l1.2.5c.4-.3.9-.5 1.4-.7l.3-1.2c.2-.6.8-1.1 1.5-1.1Z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="var(--dq-navy)"/></svg></span>
@@ -952,6 +1074,7 @@ function render(){
     document.getElementById('syncText').textContent = useCloud ? '2台で同期中' : 'この端末のみ';
   }
   renderToday(); renderShop(); renderHist(); renderAdmin(); renderHomework(); updateHwBadge();
+  renderKakomon();
 }
 
 /* ① 今日のクエスト */
@@ -1528,6 +1651,566 @@ function parentLabel(){ return state.parentName ? state.parentName : 'おうち�
   initSettingUI();
   render();
 })();
+
+/* =========================================================
+   かこもん手帖 (過去問管理)
+   ========================================================= */
+const KK_SUBJ={'国':'国語','算':'算数','理':'理科','社':'社会'};
+const KK_ORDER=['国','算','理','社'];
+const KK_COLORS=['#1E7DD4','#2E9E6B','#7B5BB6','#E8840A','#E2517B','#4FB394','#F5B98A','#A48BDF','#86C9E0'];
+const KK_CUR_YEAR = 2026;
+let kkView = { schoolId:null, sessionId:null };
+let kkSheetCtx = null;
+
+function kkUid(){ return Math.random().toString(36).slice(2,10); }
+function kkYrs(n, from=KK_CUR_YEAR){ return Array.from({length:n},(_,i)=>from-i); }
+function kkS4(rika, shakai){ return [{k:'国',max:100},{k:'算',max:100},{k:'理',max:rika},{k:'社',max:shakai}]; }
+function kkMkSess(label, subjects, n){ return {id:kkUid(), label, subjects, years:kkYrs(n)}; }
+function kkMkSchool(name, ci, sessions){ return {id:kkUid(), name, color:KK_COLORS[ci%KK_COLORS.length], sessions}; }
+
+function kkDefaults(){
+  return {
+    v:1,
+    schools:[
+      kkMkSchool('吉祥女子',0,[kkMkSess('第1回(2/1)',kkS4(70,70),10), kkMkSess('第2回(2/2)',kkS4(70,70),10)]),
+      kkMkSchool('山脇学園',1,[
+        kkMkSess('A日程',kkS4(50,50),10),
+        kkMkSess('B日程',kkS4(50,50),10),
+        kkMkSess('C日程',kkS4(50,50),10),
+        kkMkSess('算数1科',[{k:'算',max:100}],10),
+        kkMkSess('国語1科',[{k:'国',max:100}],10),
+      ]),
+      kkMkSchool('東洋英和女学院',2,[kkMkSess('A日程',kkS4(60,60),10), kkMkSess('B日程',kkS4(60,60),10)]),
+      kkMkSchool('大妻',3,[kkMkSess('第1回',kkS4(50,50),5)]),
+      kkMkSchool('共立女子',4,[kkMkSess('2/1入試',kkS4(50,50),5)]),
+      kkMkSchool('頌栄女子学院',5,[kkMkSess('第1回',kkS4(50,50),5)]),
+      kkMkSchool('東邦大学付属東邦',6,[kkMkSess('第1回',kkS4(100,100),5)]),
+      kkMkSchool('昭和学院秀英',7,[kkMkSess('第1回',kkS4(50,50),5)]),
+      kkMkSchool('専修大学松戸',8,[kkMkSess('第1回',kkS4(50,50),5)]),
+    ],
+    rec:{}
+  };
+}
+
+function kkEnsure(){
+  if(!state.kakomon){ state.kakomon = kkDefaults(); }
+  if(!state.kakomon.rec) state.kakomon.rec = {};
+  if(!Array.isArray(state.kakomon.schools)) state.kakomon.schools = [];
+}
+
+const kkEsc = s => String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const kkNum = v => { if(v===''||v==null) return null; const n=Number(v); return isFinite(n)?n:null; };
+const kkFmt = n => n==null?'—':(Math.round(n*10)/10).toString();
+const kkKey = (sid,y) => sid+'|'+y;
+function kkGetRec(sid, y, create){
+  const k = kkKey(sid,y);
+  if(!state.kakomon.rec[k] && create) state.kakomon.rec[k] = { min:null, avg:null, savg:{}, att:[] };
+  return state.kakomon.rec[k];
+}
+function kkFindSchool(id){ return state.kakomon.schools.find(s=>s.id===id); }
+function kkFindSess(sid){
+  for(const sc of state.kakomon.schools) for(const se of sc.sessions) if(se.id===sid) return {sc,se};
+  return {};
+}
+const kkMaxOf = se => se.subjects.reduce((a,s)=>a+(+s.max||0), 0);
+function kkTotalOf(a, se){
+  let t=0, any=false;
+  for(const s of se.subjects){
+    const v = kkNum(a.scores?.[s.k]);
+    if(v!=null){ t+=v; any=true; }
+  }
+  return any?t:null;
+}
+function kkBestOf(r, se){
+  if(!r || !r.att.length) return null;
+  let b=null;
+  for(const a of r.att){
+    const t = kkTotalOf(a, se);
+    if(t!=null && (b==null || t>b)) b=t;
+  }
+  return b;
+}
+function kkJudge(score, r){
+  if(score==null) return {k:'none'};
+  if(r && r.avg!=null && score >= r.avg) return {k:'avg'};
+  if(r && r.min!=null && score >= r.min) return {k:'min'};
+  return {k:'none'};
+}
+
+/* ---- 画面レンダリング ---- */
+function renderKakomon(){
+  kkEnsure();
+  const pills = document.getElementById('kkSchoolPills');
+  const body = document.getElementById('kkSchoolBody');
+  if(!pills || !body) return;
+  
+  const schools = state.kakomon.schools;
+  if(schools.length===0){
+    pills.innerHTML = '';
+    body.innerHTML = '<div class="kk-empty">まだ学校がとうろくされていません。<br>下の「＋ 学校をついか」から はじめましょう。</div>';
+    return;
+  }
+  
+  // 選択中の学校がなければ最初の学校
+  if(!kkView.schoolId || !schools.find(s=>s.id===kkView.schoolId)){
+    kkView.schoolId = schools[0].id;
+    kkView.sessionId = schools[0].sessions[0]?.id || null;
+  }
+  
+  // 学校ピル
+  pills.innerHTML = schools.map(s=>{
+    const sel = s.id===kkView.schoolId ? 'true' : 'false';
+    return `<button class="kk-pill" aria-selected="${sel}" onclick="kkSelectSchool('${s.id}')">${kkEsc(s.name)}</button>`;
+  }).join('');
+  
+  // 選択中学校の中身
+  const sc = kkFindSchool(kkView.schoolId);
+  if(!sc){ body.innerHTML=''; return; }
+  
+  // 日程が0
+  if(sc.sessions.length===0){
+    body.innerHTML = `
+      <div class="kk-schoolhead">
+        <span class="kk-tape" style="background:${sc.color}"></span>
+        <h3>${kkEsc(sc.name)}</h3>
+        <div class="kk-schoolact"><button onclick="kkEditSchool('${sc.id}')">学校を編集</button></div>
+      </div>
+      <div class="kk-empty">日程がとうろくされていません。<br>「学校を編集」から日程をついかできます。</div>`;
+    return;
+  }
+  
+  // 日程がなければ最初のを選択
+  if(!kkView.sessionId || !sc.sessions.find(se=>se.id===kkView.sessionId)){
+    kkView.sessionId = sc.sessions[0].id;
+  }
+  const se = sc.sessions.find(s=>s.id===kkView.sessionId);
+  
+  // 日程タブ
+  const tabs = sc.sessions.map(s=>{
+    const sel = s.id===se.id?'true':'false';
+    return `<button class="kk-tab" role="tab" aria-selected="${sel}" onclick="kkSelectSession('${s.id}')">${kkEsc(s.label)}</button>`;
+  }).join('');
+  
+  // 年度リスト
+  const yrs = se.years.map(y=>{
+    const r = kkGetRec(sc.id, y);
+    const best = kkBestOf(r, se);
+    const j = kkJudge(best, r);
+    let badge='', badgeCls='none', badgeText='未';
+    if(j.k==='avg'){ badgeCls='avg'; badgeText='合格ライン'; }
+    else if(j.k==='min'){ badgeCls='min'; badgeText='最低点'; }
+    else if(best!=null){ badgeCls='none'; badgeText='未達'; }
+    const attCount = r?.att?.length || 0;
+    const bestText = best!=null
+      ? `最高 <b>${best}点</b> / ${kkMaxOf(se)}点 (${attCount}回)`
+      : (attCount>0 ? `${attCount}回とりくみ済み` : 'まだとりくんでいない');
+    return `<div class="kk-yr" onclick="kkOpenYear('${sc.id}','${se.id}',${y})">
+      <div class="kk-yr-num">${y}</div>
+      <div class="kk-yr-best">${bestText}</div>
+      <div class="kk-yr-badge ${badgeCls}">${badgeText}</div>
+    </div>`;
+  }).join('');
+  
+  body.innerHTML = `
+    <div class="kk-schoolhead">
+      <span class="kk-tape" style="background:${sc.color}"></span>
+      <h3>${kkEsc(sc.name)}</h3>
+      <div class="kk-schoolact"><button onclick="kkEditSchool('${sc.id}')">学校を編集</button></div>
+    </div>
+    <div class="kk-tabs" role="tablist">${tabs}</div>
+    <div class="kk-yrs">${yrs || '<div class="kk-empty">年度がとうろくされていません</div>'}</div>
+    <div style="margin-top:10px;text-align:right">
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="kkEditSession('${sc.id}','${se.id}')">日程を設定</button>
+    </div>`;
+}
+
+function kkSelectSchool(id){
+  kkView.schoolId = id;
+  const sc = kkFindSchool(id);
+  kkView.sessionId = sc?.sessions[0]?.id || null;
+  renderKakomon();
+}
+function kkSelectSession(id){
+  kkView.sessionId = id;
+  renderKakomon();
+}
+
+/* ---- シート(モーダル) ---- */
+function kkOpenSheet(html){
+  let ov = document.getElementById('kkSheetOverlay');
+  if(!ov){
+    ov = document.createElement('div');
+    ov.id = 'kkSheetOverlay';
+    ov.className = 'kk-sheet-overlay';
+    ov.innerHTML = '<div class="kk-sheet" id="kkSheet"></div>';
+    ov.addEventListener('click', e=>{ if(e.target===ov) kkCloseSheet(); });
+    document.body.appendChild(ov);
+  }
+  document.getElementById('kkSheet').innerHTML = html;
+  ov.classList.add('show');
+}
+function kkCloseSheet(){
+  const ov = document.getElementById('kkSheetOverlay');
+  if(ov) ov.classList.remove('show');
+  kkSheetCtx = null;
+}
+
+/* ---- 年度を開く(記録詳細) ---- */
+function kkOpenYear(sid, seId, y){
+  const {sc, se} = kkFindSess(seId);
+  if(!sc || !se) return;
+  const r = kkGetRec(sid, y, true);
+  const max = kkMaxOf(se);
+  const attList = (r.att||[]).map(a=>{
+    const total = kkTotalOf(a, se);
+    const scoreCells = se.subjects.map(s=>{
+      const v = a.scores?.[s.k];
+      return `<span>${KK_SUBJ[s.k]||s.k}:<b>${v??'—'}</b>/${s.max}</span>`;
+    }).join('');
+    return `<div class="kk-att">
+      <div class="kk-att-head">
+        <span class="kk-att-date">${kkEsc(a.date||'')}</span>
+        <span class="kk-att-total">合計 ${total??'—'} / ${max}</span>
+      </div>
+      <div class="kk-att-scores">${scoreCells}</div>
+      ${a.memo?`<div style="margin-top:6px;font-size:11px;color:var(--color-text-secondary);white-space:pre-wrap">${kkEsc(a.memo)}</div>`:''}
+      <div class="kk-att-actions">
+        <button onclick="kkEditAttempt('${sid}',${y},'${a.id}')">✏️ 修正</button>
+        <button onclick="kkDeleteAttempt('${sid}',${y},'${a.id}')">🗑 消す</button>
+      </div>
+    </div>`;
+  }).join('');
+  
+  kkOpenSheet(`
+    <h3>${kkEsc(sc.name)} ${kkEsc(se.label)}</h3>
+    <p class="kk-subt">${y}年度 (満点 ${max}点)</p>
+    <h4>合格者データ</h4>
+    <div class="kk-box">
+      <div class="kk-row"><label>最低点</label><input type="number" id="kkMin" value="${r.min??''}" placeholder="—"><span class="kk-mx">点</span></div>
+      <div class="kk-row"><label>平均点</label><input type="number" id="kkAvg" value="${r.avg??''}" placeholder="—"><span class="kk-mx">点</span></div>
+    </div>
+    <h4>解いた記録</h4>
+    ${attList || '<div class="kk-empty">まだ記録がありません</div>'}
+    <div style="margin-top:10px;text-align:center">
+      <button class="btn btn-q1" onclick="kkAddAttempt('${sid}',${y})">＋ 記録をついか</button>
+    </div>
+    <div class="kk-sheet-btns">
+      <button class="kk-ng" onclick="kkCloseSheet()">とじる</button>
+      <button class="kk-ok" onclick="kkSaveYear('${sid}',${y})">ほぞん</button>
+    </div>`);
+}
+
+function kkSaveYear(sid, y){
+  const r = kkGetRec(sid, y, true);
+  r.min = kkNum(document.getElementById('kkMin').value);
+  r.avg = kkNum(document.getElementById('kkAvg').value);
+  save();
+  kkCloseSheet();
+  renderKakomon();
+  toast('ほぞんしました');
+}
+
+/* ---- 記録の追加・修正 ---- */
+function kkAddAttempt(sid, y){ kkAttemptSheet(sid, y, null); }
+function kkEditAttempt(sid, y, aid){ kkAttemptSheet(sid, y, aid); }
+
+function kkAttemptSheet(sid, y, aid){
+  const {sc, se} = kkFindSess(kkView.sessionId);
+  if(!sc || !se) return;
+  const r = kkGetRec(sid, y, true);
+  const a = aid ? r.att.find(x=>x.id===aid) : null;
+  const td = new Date().toISOString().slice(0,10);
+  const scores = se.subjects.map(s=>{
+    const v = a?.scores?.[s.k]??'';
+    return `<div class="kk-row">
+      <span class="kk-subj-k">${KK_SUBJ[s.k]||s.k}</span>
+      <input type="number" data-kkscore="${s.k}" value="${v}" placeholder="—">
+      <span class="kk-mx">/ ${s.max}点</span>
+    </div>`;
+  }).join('');
+  
+  kkOpenSheet(`
+    <h3>${a?'記録を修正':'記録をついか'}</h3>
+    <p class="kk-subt">${kkEsc(sc.name)} ${kkEsc(se.label)} ${y}年度</p>
+    <div class="kk-box">
+      <div class="kk-fld">
+        <label>解いた日</label>
+        <input type="date" id="kkAttDate" value="${a?.date||td}">
+      </div>
+      <h4 style="border:none;margin:8px 0 6px">とくてん</h4>
+      ${scores}
+      <div class="kk-fld" style="margin-top:8px">
+        <label>メモ</label>
+        <textarea id="kkAttMemo" rows="3" placeholder="体調、次に気をつけることなど">${kkEsc(a?.memo||'')}</textarea>
+      </div>
+    </div>
+    <div class="kk-sheet-btns">
+      ${a?`<button class="kk-del" onclick="kkDeleteAttempt('${sid}',${y},'${a.id}',true)">🗑 消す</button>`:''}
+      <button class="kk-ng" onclick="kkCloseSheet()">キャンセル</button>
+      <button class="kk-ok" onclick="kkSaveAttempt('${sid}',${y},'${a?.id||''}')">ほぞん</button>
+    </div>`);
+}
+
+function kkSaveAttempt(sid, y, aid){
+  const r = kkGetRec(sid, y, true);
+  const scores = {};
+  document.querySelectorAll('[data-kkscore]').forEach(el=>{
+    const k = el.dataset.kkscore;
+    const v = kkNum(el.value);
+    if(v!=null) scores[k] = v;
+  });
+  const date = document.getElementById('kkAttDate').value;
+  const memo = document.getElementById('kkAttMemo').value;
+  if(aid){
+    const a = r.att.find(x=>x.id===aid);
+    if(a){ a.scores=scores; a.date=date; a.memo=memo; }
+  } else {
+    r.att.push({ id:kkUid(), date, scores, memo });
+  }
+  // 日付降順にソート
+  r.att.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  save();
+  kkOpenYear(sid, kkView.sessionId, y);
+  renderKakomon();
+  toast('記録をほぞんしました');
+}
+
+function kkDeleteAttempt(sid, y, aid, fromSheet){
+  if(!confirm('この記録を消しますか?')) return;
+  const r = kkGetRec(sid, y);
+  if(!r) return;
+  r.att = r.att.filter(a=>a.id!==aid);
+  save();
+  kkOpenYear(sid, kkView.sessionId, y);
+  renderKakomon();
+  toast('消しました');
+}
+
+/* ---- 学校の追加・編集 ---- */
+function kkAddSchool(){
+  const subj = KK_ORDER.map(k=>`<div class="kk-subj-row">
+    <span class="kk-subj-k">${KK_SUBJ[k]}</span>
+    <input type="number" data-kknewsubj="${k}" value="100" min="0"><span class="kk-mx">点</span>
+    <label style="margin-left:auto;font-size:11px"><input type="checkbox" data-kknewsubjuse="${k}" checked> つかう</label>
+  </div>`).join('');
+  kkOpenSheet(`
+    <h3>学校をついか</h3>
+    <p class="kk-subt">名前と最初の日程をつくります</p>
+    <div class="kk-box">
+      <div class="kk-fld"><label>学校名</label><input id="kkNewName" placeholder="例 普連土学園"></div>
+      <div class="kk-fld"><label>色</label>
+        <select id="kkNewColor">
+          ${KK_COLORS.map((c,i)=>`<option value="${i}" style="background:${c}">${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="kk-fld"><label>最初の日程名</label><input id="kkNewSess" placeholder="例 第1回"></div>
+      <div class="kk-fld"><label>年度数(さかのぼる年数)</label><input type="number" id="kkNewYrs" value="5" min="1" max="20"></div>
+      <h4 style="border:none;margin:8px 0 6px">科目と満点</h4>
+      ${subj}
+    </div>
+    <div class="kk-sheet-btns">
+      <button class="kk-ng" onclick="kkCloseSheet()">キャンセル</button>
+      <button class="kk-ok" onclick="kkCreateSchool()">つくる</button>
+    </div>`);
+}
+
+function kkCreateSchool(){
+  const name = document.getElementById('kkNewName').value.trim();
+  if(!name){ alert('学校名を入れてください'); return; }
+  const ci = parseInt(document.getElementById('kkNewColor').value)||0;
+  const sessLabel = document.getElementById('kkNewSess').value.trim() || '第1回';
+  const nYrs = Math.max(1, parseInt(document.getElementById('kkNewYrs').value)||5);
+  const subjects = [];
+  KK_ORDER.forEach(k=>{
+    const use = document.querySelector(`[data-kknewsubjuse="${k}"]`).checked;
+    if(!use) return;
+    const max = kkNum(document.querySelector(`[data-kknewsubj="${k}"]`).value) || 100;
+    subjects.push({k, max});
+  });
+  if(subjects.length===0){ alert('科目を1つ以上えらんでください'); return; }
+  const sess = kkMkSess(sessLabel, subjects, nYrs);
+  const school = kkMkSchool(name, ci, [sess]);
+  state.kakomon.schools.push(school);
+  save();
+  kkView.schoolId = school.id;
+  kkView.sessionId = sess.id;
+  kkCloseSheet();
+  renderKakomon();
+  toast(name+' をつくりました');
+}
+
+function kkEditSchool(sid){
+  const sc = kkFindSchool(sid);
+  if(!sc) return;
+  const sessList = sc.sessions.map(se=>`<div class="kk-att" style="padding:8px 10px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span>${kkEsc(se.label)} <span style="color:var(--color-text-muted);font-size:11px">(${se.years.length}年度)</span></span>
+      <div>
+        <button style="background:transparent;border:none;color:var(--color-text-muted);cursor:pointer" onclick="kkEditSession('${sc.id}','${se.id}')">✏️</button>
+        <button style="background:transparent;border:none;color:#DC2626;cursor:pointer" onclick="kkDeleteSession('${sc.id}','${se.id}')">🗑</button>
+      </div>
+    </div>
+  </div>`).join('');
+  
+  kkOpenSheet(`
+    <h3>学校を編集</h3>
+    <p class="kk-subt">${kkEsc(sc.name)}</p>
+    <div class="kk-box">
+      <div class="kk-fld"><label>学校名</label><input id="kkEdName" value="${kkEsc(sc.name)}"></div>
+      <div class="kk-fld"><label>色</label>
+        <select id="kkEdColor">
+          ${KK_COLORS.map((c,i)=>`<option value="${i}" ${c===sc.color?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <h4>日程</h4>
+    ${sessList || '<div class="kk-empty">日程がありません</div>'}
+    <div style="margin-top:8px;text-align:center">
+      <button class="btn btn-q2" onclick="kkAddSession('${sc.id}')">＋ 日程をついか</button>
+    </div>
+    <div class="kk-sheet-btns">
+      <button class="kk-del" onclick="kkDeleteSchool('${sc.id}')">🗑 学校ごと消す</button>
+      <button class="kk-ng" onclick="kkCloseSheet()">とじる</button>
+      <button class="kk-ok" onclick="kkSaveSchool('${sc.id}')">ほぞん</button>
+    </div>`);
+}
+
+function kkSaveSchool(sid){
+  const sc = kkFindSchool(sid);
+  if(!sc) return;
+  const name = document.getElementById('kkEdName').value.trim();
+  if(name) sc.name = name;
+  const ci = parseInt(document.getElementById('kkEdColor').value);
+  if(!isNaN(ci)) sc.color = KK_COLORS[ci%KK_COLORS.length];
+  save();
+  kkCloseSheet();
+  renderKakomon();
+  toast('ほぞんしました');
+}
+
+function kkDeleteSchool(sid){
+  if(!confirm('この学校と、すべての記録を消しますか?\n(この操作はもどせません)')) return;
+  const idx = state.kakomon.schools.findIndex(s=>s.id===sid);
+  if(idx>=0){
+    // 関連記録も削除
+    const sc = state.kakomon.schools[idx];
+    sc.sessions.forEach(se=>{ se.years.forEach(y=>{ delete state.kakomon.rec[kkKey(sc.id,y)]; }); });
+    state.kakomon.schools.splice(idx,1);
+    save();
+    kkView.schoolId = null;
+    kkView.sessionId = null;
+    kkCloseSheet();
+    renderKakomon();
+    toast('学校を消しました');
+  }
+}
+
+function kkAddSession(sid){
+  const sc = kkFindSchool(sid);
+  if(!sc) return;
+  const sess = kkMkSess('新しい日程', kkS4(50,50), 5);
+  sc.sessions.push(sess);
+  save();
+  kkEditSession(sid, sess.id);
+}
+
+function kkEditSession(sid, seId){
+  const sc = kkFindSchool(sid);
+  const se = sc?.sessions.find(s=>s.id===seId);
+  if(!sc || !se) return;
+  const subj = KK_ORDER.map(k=>{
+    const cur = se.subjects.find(s=>s.k===k);
+    const use = !!cur;
+    const max = cur?.max ?? 100;
+    return `<div class="kk-subj-row">
+      <span class="kk-subj-k">${KK_SUBJ[k]}</span>
+      <input type="number" data-kkedsubj="${k}" value="${max}" min="0"><span class="kk-mx">点</span>
+      <label style="margin-left:auto;font-size:11px"><input type="checkbox" data-kkedsubjuse="${k}" ${use?'checked':''}> つかう</label>
+    </div>`;
+  }).join('');
+  const yrs = se.years.map(y=>`<span class="kk-ychip" onclick="kkRemoveYear('${sid}','${seId}',${y})">${y} ✕</span>`).join('');
+  
+  kkOpenSheet(`
+    <h3>日程の設定</h3>
+    <p class="kk-subt">${kkEsc(sc.name)}</p>
+    <div class="kk-box">
+      <div class="kk-fld"><label>日程の名前</label><input id="kkSeLabel" value="${kkEsc(se.label)}"></div>
+    </div>
+    <h4>科目と満点</h4>
+    <div class="kk-box">${subj}</div>
+    <h4>年度(タップで外す)</h4>
+    <div class="kk-box">
+      <div class="kk-ychips">${yrs || '<span style="color:var(--color-text-muted);font-size:12px">年度がありません</span>'}</div>
+      <div class="kk-row">
+        <input type="number" id="kkNewYr" placeholder="例 2016" min="1990" max="2050">
+        <button class="btn btn-q2" style="padding:6px 12px;font-size:12px" onclick="kkAddYear('${sid}','${seId}')">＋ 追加</button>
+      </div>
+    </div>
+    <div class="kk-sheet-btns">
+      <button class="kk-del" onclick="kkDeleteSession('${sid}','${seId}',true)">🗑 消す</button>
+      <button class="kk-ng" onclick="kkCloseSheet()">とじる</button>
+      <button class="kk-ok" onclick="kkSaveSession('${sid}','${seId}')">ほぞん</button>
+    </div>`);
+}
+
+function kkSaveSession(sid, seId){
+  const sc = kkFindSchool(sid);
+  const se = sc?.sessions.find(s=>s.id===seId);
+  if(!sc || !se) return;
+  const label = document.getElementById('kkSeLabel').value.trim();
+  if(label) se.label = label;
+  const newSubj = [];
+  KK_ORDER.forEach(k=>{
+    const use = document.querySelector(`[data-kkedsubjuse="${k}"]`).checked;
+    if(!use) return;
+    const max = kkNum(document.querySelector(`[data-kkedsubj="${k}"]`).value) || 100;
+    newSubj.push({k, max});
+  });
+  if(newSubj.length>0) se.subjects = newSubj;
+  save();
+  kkCloseSheet();
+  renderKakomon();
+  toast('ほぞんしました');
+}
+
+function kkAddYear(sid, seId){
+  const sc = kkFindSchool(sid);
+  const se = sc?.sessions.find(s=>s.id===seId);
+  if(!se) return;
+  const y = parseInt(document.getElementById('kkNewYr').value);
+  if(!y || y<1990 || y>2050){ alert('年度を正しく入れてください'); return; }
+  if(!se.years.includes(y)){
+    se.years.push(y);
+    se.years.sort((a,b)=>b-a);
+    save();
+  }
+  kkEditSession(sid, seId);
+}
+
+function kkRemoveYear(sid, seId, y){
+  const sc = kkFindSchool(sid);
+  const se = sc?.sessions.find(s=>s.id===seId);
+  if(!se) return;
+  if(!confirm(y+'年度を外しますか?\n記録データは残ります')) return;
+  se.years = se.years.filter(x=>x!==y);
+  save();
+  kkEditSession(sid, seId);
+}
+
+function kkDeleteSession(sid, seId, fromSheet){
+  if(!confirm('この日程を消しますか?\n(記録データも消えます)')) return;
+  const sc = kkFindSchool(sid);
+  if(!sc) return;
+  const se = sc.sessions.find(s=>s.id===seId);
+  if(se) se.years.forEach(y=>{ delete state.kakomon.rec[kkKey(sc.id,y)]; });
+  sc.sessions = sc.sessions.filter(s=>s.id!==seId);
+  save();
+  if(kkView.sessionId===seId) kkView.sessionId = sc.sessions[0]?.id || null;
+  kkCloseSheet();
+  renderKakomon();
+  toast('日程を消しました');
+}
+
 </script>
 </body>
 </html>
